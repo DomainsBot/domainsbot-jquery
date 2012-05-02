@@ -117,7 +117,7 @@
 							// cart url!!
 							htmlItem += "<span class='domainsbot_domainName'><a href='"+options['urlCheckout'] +"?domain="  +domain.DomainName+ "'>"+domain.DomainName+"</a></span>";	
 							
-							htmlItem += "<span id = 'dn_"+i+ "' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>Checking..</span>";
+							htmlItem += "<span id = 'dn_"+i+ "' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + (options["checkAvailable"] ? "Checking.." : "" ) +"</span>";
 							
 							htmlItem += "</div>";
 							
