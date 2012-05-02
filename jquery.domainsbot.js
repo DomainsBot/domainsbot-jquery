@@ -1,3 +1,5 @@
+/*Copyright 2012, DomainsBot Inc. */
+
 (function( $ ) {
 
    var loader;
