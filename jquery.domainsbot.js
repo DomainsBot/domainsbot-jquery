@@ -113,7 +113,7 @@
 							
 							htmlItem +=  "<div id = 'rowBox" +i+ "' class='domainsbot_rowBox'>";
 				
-							htmlItem += "<a href='#' class='domainsbot_starBox' disabled><img src='images/star.png' alt='' border='0' /></a>";
+							htmlItem += "<a href='#' class='domainsbot_starBox' disabled></a>";
 							// cart url!!
 							htmlItem += "<span class='domainsbot_domainName'><a href='"+options['urlCheckout'] +"?domain="  +domain.DomainName+ "'>"+domain.DomainName+"</a></span>";	
 							
