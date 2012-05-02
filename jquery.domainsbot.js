@@ -11,7 +11,7 @@
 	'url'         : '',
 	'urlAvailability' : "",
 	'urlCheckout' : "",
-	'checkAvailable' : true,    
+	'checkAvailable' : false,    
 	'textbox' : null,
 	'submit' : null,
 	'loader' : null,
