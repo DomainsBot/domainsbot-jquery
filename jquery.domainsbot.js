@@ -8,8 +8,9 @@
 
     // Create some defaults, extending them with any options that were provided
     var settings = $.extend( {
-	'url'         : '/domainsbot-client.php',
-	'url_availability' : "/db-avaliability.php",
+	'url'         : '',
+	'urlAvailability' : "",
+	'urlCheckout' : "",
 	'checkAvailable' : true,    
 	'textbox' : null,
 	'submit' : null,
@@ -114,9 +115,9 @@
 				
 							htmlItem += "<a href='#' class='domainsbot_starBox' disabled><img src='images/star.png' alt='' border='0' /></a>";
 							// cart url!!
-							htmlItem += "<span class='domainsbot_domainName'><a href='cart.php?domain=" +domain.DomainName+ "'>"+domain.DomainName+"</a></span>";	
+							htmlItem += "<span class='domainsbot_domainName'><a href='"options['urlCheckout'] +"?domain="  +domain.DomainName+ "'>"+domain.DomainName+"</a></span>";	
 							
-							htmlItem += "<span id = 'span"+i+ "' class='domainsbot_domainImg'><img id = 'dn_" +i+ "' src = 'images/ajax-loader-small.gif'  domainName = '"+domain.DomainName+"'></span>";
+							htmlItem += "<span id = 'dn_"+i+ "' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>Checking..</span>";
 							
 							htmlItem += "</div>";
 							
@@ -185,7 +186,7 @@
 						//Check if domain name is available or not
 						if(response == "1")
 									//Add the html to span 
-								$("#span" + id).html("<img src='images/ico-available.png'> ");
+								$("#span" + id).html("Available");
 						else
 							//Add the html to span 
 								$("#rowBox" + id).hide();
