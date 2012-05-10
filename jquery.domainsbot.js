@@ -199,12 +199,11 @@
 					{
 						console.log(response);
 						//Check if domain name is available or not
-						if(response == "1")
-									//Add the html to span 
-								$("span[bind='domainsbotDomain'][index='" + id+"']").html("Available");
-						else
-								//Add the html to span 
-								$("span[bind='domainsbotDomain'][index='" + id+"']").hide();
+						if(response == "0"){
+							$("span[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
+						}
+								
+								
 					}
 				},
 				error: function(response){
