@@ -124,7 +124,7 @@
 					if(data && data.Domains){
 						$.each(data.Domains, function(i,domain){
 							
-							htmlItem += "<div class='domainsbot_domainName'>";
+							var htmlItem += "<div class='domainsbot_domainName'>";
 							
 							
 							var url = "#";
@@ -137,7 +137,7 @@
 							htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 														
 							htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" 
-								+ (((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "") && options["onAvailabilitySuccess"])? checking.clone().wrap('<p>').parent().html()  : "" )
+								+ (((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "") && options["onAvailabilitySuccess"])? checking.clone().css('display','block').wrap('<p>').parent().html()  : "" )
 								+"</div>";
 							
 							htmlItem += "</div>";
