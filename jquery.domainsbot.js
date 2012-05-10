@@ -157,7 +157,7 @@
 						
 						for(i = 0; i < data.Domains.length; i++)
 						{
-							checkAvailability(data.Domains[i].DomainName, options);
+							checkAvailability(data.Domains[i].DomainName, i, options);
 						}
 						
 					}
