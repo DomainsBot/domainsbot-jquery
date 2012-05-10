@@ -26,7 +26,7 @@
 	'onLoading' : null,
 	'onAvailabilitySuccess' : null,
 	'onAvailabilityError' : null,
-	'onChekout' : null
+	'onCheckout' : null
       	    
     }, options);
 	
@@ -148,11 +148,12 @@
 					
 					$(options["results"]).html(htmlItem);
 					
-					if(options["onChekout"] != null)
+					if(options["onCheckout"] != null)
 					{
 						$("a[bind='domainsbotDomain']").click(function(evt)
 						{
-							options["onChekout"]({ Domain: $(this).attr("domainName")}, evt );
+							
+							options["onCheckout"]({ Domain: $(this).attr("domainName")}, evt );
 						});
 					}
 					
