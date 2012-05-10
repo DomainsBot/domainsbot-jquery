@@ -111,10 +111,6 @@
 					if(data && data.Domains){
 						$.each(data.Domains, function(i,domain){
 							
-							htmlItem +=  "<div id = 'rowBox" +i+ "' class='domainsbot_rowBox'>";
-				
-							htmlItem += "<a href='#' class='domainsbot_starBox' disabled></a>";
-							
 							htmlItem += "<span class='domainsbot_domainName'>";
 							
 							
@@ -134,7 +130,8 @@
 							
 							htmlItem += "</div>";
 							
-							});
+						});
+						
 						if(data.Domains.length == 0)
 							htmlItem += "<span class='domainsbot_domainName'>No Suggestions found!</span>";
 					}
@@ -157,16 +154,14 @@
 					}
 					
 
-					// Check the result is nonempty?
-					cnt = (".domainsbot_domainImg").length;
+					
 					
 					if((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "")){
-						if(cnt!=0)		
-						{
-							for(i=0;i<cnt;i++)
-								// Make the function call to check the domain name availablity
-								checkAvailability(i, options);
-						}
+						
+						$.each(data.Domains,function(i,domain){
+							checkAvailability(domain.DomainName, options);	
+						});
+						
 					}
 					
 					
@@ -185,11 +180,9 @@
 		});
 	}
  
-	function checkAvailability(id, options)
+	function checkAvailability(domain, id, options)
 	{
-		//Get the domain name to check.
-		var domain = $("span[bind='domainsbotDomain'][index='" + id+"']").attr('domainName');
-		
+				
 		// Built the post string.
 		var postString = options['urlAvailability'] .toLowerCase().replace("%domain%",domain);
 
