@@ -119,7 +119,7 @@
 							htmlItem += "<span class='domainsbot_domainName'>";
 							
 							
-							var url = "";
+							var url = "#";
 							if(options["urlCheckout"]  != null && options["urlCheckout"] != "")
 							{
 								url = options["urlCheckout"].toLowerCase().replace("%domain%",domain.DomainName);
