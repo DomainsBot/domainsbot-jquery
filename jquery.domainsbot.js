@@ -124,8 +124,7 @@
 					if(data && data.Domains){
 						$.each(data.Domains, function(i,domain){
 							
-							var htmlItem += "<div class='domainsbot_domainName'>";
-							
+							var htmlItem = "<div class='domainsbot_domainName'>";
 							
 							var url = "#";
 							if(options["urlCheckout"]  != null && options["urlCheckout"] != "")
