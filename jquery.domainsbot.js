@@ -108,7 +108,7 @@
 					options['onSuccess'](data);
 				}
 				else{
-					var htmlItem = "<div class='domainsbot_suggestionBox'><h2>Suggestions</h2>";
+					var htmlItem = "<div class='domainsbot_suggestionBox'>";
 					if(data && data.Domains){
 						$.each(data.Domains, function(i,domain){
 							
