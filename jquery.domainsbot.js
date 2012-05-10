@@ -3,7 +3,7 @@
 (function( $ ) {
 
    var loader;
-   	
+   var checking;	
   $.fn.domainsbot = function( options ) {  
 
     // Create some defaults, extending them with any options that were provided
@@ -13,7 +13,8 @@
 	'urlCheckout' : "",  
 	'textbox' : null,
 	'submit' : null,
-	'loader' : null,
+	'loading' : null,
+	'checking' : null,
 	'results' : 'results',
 	'tlds' : 'com,net,org,biz',
 	'limit' : 10,
@@ -28,6 +29,8 @@
 	'onCheckout' : null
       	    
     }, options);
+    
+    
 	
 	if(settings['textbox'] != null){
 		// Sets focus the search text box
@@ -35,14 +38,24 @@
 	}
 	
 	
-	if(settings['loader'] != null){
+	if(settings['loading'] != null){
 		// Sets variable with ajax loader image
-		$(settings['loader']).css('display','none');
+		$(settings['loading']).css('display','none');
 		
-		loader = $(settings['loader']);
+		loader = $(settings['loading']);
 		
 		loader.remove();
 	}
+	
+	if(settings['checking'] != null){
+		// Sets variable with ajax loader image
+		$(settings['checking']).css('display','none');
+		
+		checking = $(settings['checking']);
+		
+		checking.remove();
+	}
+	
 	if(settings['textbox'] != null){
 		// Check for Key down event on Search text box
 		$(settings['textbox']).keydown(function(event) {
@@ -86,7 +99,7 @@
 		
 		$(options["results"]).html("");
 		
-		if(options['loader'] != null){
+		if(options['loading'] != null){
 			$(options["results"]).append(loader);
 			// Set teh ajax loader image
 			$(loader).css('display','');
@@ -107,11 +120,11 @@
 					options['onSuccess'](data);
 				}
 				else{
-					var htmlItem = "<ul>";
+					
 					if(data && data.Domains){
 						$.each(data.Domains, function(i,domain){
 							
-							htmlItem += "<li class='domainsbot_domainName'>";
+							htmlItem += "<div class='domainsbot_domainName'>";
 							
 							
 							var url = "#";
@@ -123,9 +136,11 @@
 							// cart url
 							htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 														
-							htmlItem += "<span bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + ((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "") ? "Checking.." : "" ) +"</span>";
+							htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" 
+								+ (((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "") && options["onAvailabilitySuccess"])? checking.clone().wrap('<p>').parent().html()  : "" )
+								+"</div>";
 							
-							htmlItem += "</li>";
+							htmlItem += "</div>";
 							
 						});
 						
@@ -137,7 +152,7 @@
 						htmlItem += "<li class='domainsbot_domainName'>An error occured</li>";
 					}
 
-					htmlItem += "</ul>";
+					
 					
 					$(options["results"]).html(htmlItem);
 					
