@@ -216,12 +216,12 @@
 						if(response == 0)
 						{
 							
-							$("span[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
+							$("div[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
 						}
 						else
 						{
-							console.log(id);
-							$("span[bind='domainsbotDomain'][index='" + id+"']").html("");
+							
+							$("div[bind='domainsbotDomain'][index='" + id+"']").html("");
 						}
 								
 								
