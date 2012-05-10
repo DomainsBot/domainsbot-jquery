@@ -10,8 +10,7 @@
     var settings = $.extend( {
 	'url'         : '',
 	'urlAvailability' : "",
-	'urlCheckout' : "",
-	'checkAvailable' : false,    
+	'urlCheckout' : "",  
 	'textbox' : null,
 	'submit' : null,
 	'loader' : null,
@@ -126,12 +125,12 @@
 							}
 							
 							// cart url
-							htmlItem += "<a href='"+url+"' bind='domainsbotDomain' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
+							htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 							
 								
 							htmlItem += "</span>";	
 							
-							htmlItem += "<span id = 'dn_"+i+ "' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + (options["checkAvailable"] ? "Checking.." : "" ) +"</span>";
+							htmlItem += "<span bind='domainsbotDomain' index='"+i+"'domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + (options["checkAvailable"] ? "Checking.." : "" ) +"</span>";
 							
 							htmlItem += "</div>";
 							
@@ -150,7 +149,7 @@
 					
 					if(options["onCheckout"] != null)
 					{
-						$("a[bind='domainsbotDomain']").click(function(evt)
+						$("a[bind='domainsbotDomainLink']").click(function(evt)
 						{
 							
 							options["onCheckout"]({ Domain: $(this).attr("domainName")}, evt );
@@ -161,7 +160,7 @@
 					// Check the result is nonempty?
 					cnt = (".domainsbot_domainImg").length;
 					
-					if(options["checkAvailable"]){
+					if((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "")){
 						if(cnt!=0)		
 						{
 							for(i=0;i<cnt;i++)
@@ -205,15 +204,16 @@
 					if(options["onAvailabilitySuccess"] != null){
 						options["onAvailabilitySuccess"]({ Domain: domain, Index: id, Available:  response == "1"? true : false} );
 					}
-					else
+					if(options["urlAvailability"] != null && options["urlAvailability"] != "")
 					{
+						console.log(response);
 						//Check if domain name is available or not
 						if(response == "1")
 									//Add the html to span 
-								$("#span" + id).html("Available");
+								$("span[bind='domainsbotDomain'][index='" + id+"']").html("Available");
 						else
-							//Add the html to span 
-								$("#rowBox" + id).hide();
+								//Add the html to span 
+								$("span[bind='domainsbotDomain'][index='" + id+"']").hide();
 					}
 				},
 				error: function(response){
