@@ -120,11 +120,11 @@
 					options['onSuccess'](data);
 				}
 				else{
-					
+					var htmlItem = "";
 					if(data && data.Domains){
 						$.each(data.Domains, function(i,domain){
 							
-							var htmlItem = "<div class='domainsbot_domainName'>";
+							htmlItem += "<div class='domainsbot_domainName'>";
 							
 							var url = "#";
 							if(options["urlCheckout"]  != null && options["urlCheckout"] != "")
@@ -144,11 +144,11 @@
 						});
 						
 						if(data.Domains.length == 0)
-							htmlItem += "<li class='domainsbot_domainName'>No Suggestions found!</li>";
+							htmlItem += "<div class='domainsbot_domainName'>No Suggestions found!</div>";
 					}
 					else
 					{
-						htmlItem += "<li class='domainsbot_domainName'>An error occured</li>";
+						htmlItem += "<div class='domainsbot_domainName'>An error occured</div>";
 					}
 
 					
