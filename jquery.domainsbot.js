@@ -197,15 +197,17 @@
 					}
 					if(options["urlAvailability"] != null && options["urlAvailability"] != "")
 					{
-						console.log(response);
+						
 						//Check if domain name is available or not
-						if(response == 0){
-							console.log($("span[bind='domainsbotDomain'][index='" + id+"']").parent());
+						if(response == 0)
+						{
+							
 							$("span[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
 						}
 						else
 						{
-							$("span[bind='domainsbotDomain'][index='" + id+"']").html();
+							console.log(id);
+							$("span[bind='domainsbotDomain'][index='" + id+"']").html("");
 						}
 								
 								
