@@ -155,9 +155,10 @@
 					
 					if((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "")){
 						
-						$.each(data.Domains,function(i,domain){
-							checkAvailability(domain.DomainName, options);	
-						});
+						for(i = 0; i < data.Domains.length; i++)
+						{
+							checkAvailability(data.Domains[i].DomainName, options);
+						}
 						
 					}
 					
@@ -181,7 +182,7 @@
 	{
 				
 		// Built the post string.
-		var postString = options['urlAvailability'] .toLowerCase().replace("%domain%",domain);
+		var postString = options['urlAvailability'].toLowerCase().replace("%domain%",domain);
 
 		//check if domain not empty
 		if(domain!="")
