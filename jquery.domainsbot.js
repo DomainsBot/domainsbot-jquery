@@ -2,107 +2,106 @@
 
 (function( $ ) {
 
-   var loader;
-   var checking;
-  
-    var methods = {
-	    init : function( options ) { 
-	      // THIS 
-	    },
-	    search : function(key) {
-		getDomains(key, settings); 
-	    }
-  };
-	
-  $.fn.domainsbot = ( method ) {
+	   var loader;
+	   var checking;
+	   var settings;
+		// Create some defaults, extending them with any options that were provided
     
-	    // Method calling logic
-	    if ( methods[method] ) {
-	      return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-	    } else if ( typeof method === 'object' || ! method ) {
-	      return methods.init.apply( this, arguments );
-	    } else {
-	      $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
-	    }    
+	
+	    var methods = {
+		    init : function( options ) { 
+			this.InitPlugin(options);
+		    },
+		    search : function(key) {
+			this.getDomains(key, settings); 
+		    }
+	  };
+	
+	  $.fn.domainsbot = ( method ) {
+		    // Method calling logic
+		    if ( methods[method] ) {
+		      return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+		    } else if ( typeof method === 'object' || ! method ) {
+		      return methods.init.apply( this, arguments );
+		    } else {
+		      $.error( 'Method ' +  method + ' does not exist on jQuery.domainsbot' );
+		    }    
+	  
+	  };
   
-  };
-  
-  
-  
-    // Create some defaults, extending them with any options that were provided
-    var settings = $.extend( {
-	'url'         : '',
-	'urlAvailability' : "",
-	'urlCheckout' : "",  
-	'textbox' : null,
-	'submit' : null,
-	'loading' : null,
-	'checking' : null,
-	'results' : 'results',
-	'tlds' : 'com,net,org,biz',
-	'limit' : 10,
-        'removeKeys' : false,
-	'advanced' : null,
-	'onSuccess' : null,
-	'onError' : null,
-	'onLoading' : null,
-	'onAvailabilitySuccess' : null,
-	'onAvailabilityError' : null,
-	'onCheckout' : null
-      	    
-    }, options);
-        
-	
-	if(settings['textbox'] != null){
-		// Sets focus the search text box
-		$(settings['textbox']).focus();
-	}
-	
-	
-	if(settings['loading'] != null){
-		// Sets variable with ajax loader image
-		$(settings['loading']).css('display','none');
+	    var InitPlugin = function(options)
+	    {
+		settings = $.extend( {
+			'url'         : '',
+			'urlAvailability' : "",
+			'urlCheckout' : "",  
+			'textbox' : null,
+			'submit' : null,
+			'loading' : null,
+			'checking' : null,
+			'results' : 'results',
+			'tlds' : 'com,net,org,biz',
+			'limit' : 10,
+			'removeKeys' : false,
+			'advanced' : null,
+			'onSuccess' : null,
+			'onError' : null,
+			'onLoading' : null,
+			'onAvailabilitySuccess' : null,
+			'onAvailabilityError' : null,
+			'onCheckout' : null
+			    
+		 }, options);
+		    
+		 if(settings['textbox'] != null){
+			// Sets focus the search text box
+			$(settings['textbox']).focus();
+		}
 		
-		loader = $(settings['loading']);
 		
-		loader.remove();
-	}
-	
-	if(settings['checking'] != null){
-		// Sets variable with ajax loader image
-		$(settings['checking']).css('display','none');
+		if(settings['loading'] != null){
+			// Sets variable with ajax loader image
+			$(settings['loading']).css('display','none');
+			
+			loader = $(settings['loading']);
+			
+			loader.remove();
+		}
 		
-		checking = $(settings['checking']);
+		if(settings['checking'] != null){
+			// Sets variable with ajax loader image
+			$(settings['checking']).css('display','none');
+			
+			checking = $(settings['checking']);
+			
+			checking.remove();
+		}
 		
-		checking.remove();
-	}
-	
-	if(settings['textbox'] != null){
-		// Check for Key down event on Search text box
-		$(settings['textbox']).keydown(function(event) {
+		if(settings['textbox'] != null){
+			// Check for Key down event on Search text box
+			$(settings['textbox']).keydown(function(event) {
 
-			// Check if user hits the <enter>
-			if(event.keyCode == 13){
-				// calls to function
-				getDomains($(options["textbox"]).val(),settings);
-			}
-		});
-	}
-	
-	if(settings['submit'] != null && settings['textbox'] != null){
-		// Check the click event, search btn pressed
-		$(settings['submit']).click(function(){
-
-				//call the function to get result
-				getDomains($(options["textbox"]).val(), settings);
-		});
-	}
+				// Check if user hits the <enter>
+				if(event.keyCode == 13){
+					// calls to function
+					this.getDomains($(options["textbox"]).val(),settings);
+				}
+			});
+		}
 		
-  };
-  
-  function getDomains(key,options)
-	{
-		var cnt = 0; var i;
+		if(settings['submit'] != null && settings['textbox'] != null){
+			// Check the click event, search btn pressed
+			$(settings['submit']).click(function(){
+
+					//call the function to get result
+					this.getDomains($(options["textbox"]).val(), settings);
+			});
+		}
+	    };	
+	    
+	    var getDomain = function (key,options)
+	    {
+		 var cnt = 0; var i;
 		
 		// Define an empty string
 		var postString = "";
@@ -189,7 +188,7 @@
 						
 						for(i = 0; i < data.Domains.length; i++)
 						{
-							checkAvailability(data.Domains[i].DomainName, i, options);
+							this.checkAvailability(data.Domains[i].DomainName, i, options);
 						}
 						
 					}
@@ -208,11 +207,11 @@
 				
 			}
 		});
-	}
- 
-	function checkAvailability(domain, id, options)
-	{
-				
+	    };
+	    
+	    var checkAvailability = function (domain, id, options)
+	    {
+		    
 		// Built the post string.
 		var postString = options['urlAvailability'].toLowerCase().replace("%domain%",domain);
 
@@ -256,6 +255,9 @@
 				}
 			});
 		}
-	}
+		    
+	    };
+		
+  };
   
 })( jQuery );
