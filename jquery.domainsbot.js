@@ -107,11 +107,11 @@
 					options['onSuccess'](data);
 				}
 				else{
-					var htmlItem = "<div class='domainsbot_suggestionBox'>";
+					var htmlItem = "<ul>";
 					if(data && data.Domains){
 						$.each(data.Domains, function(i,domain){
 							
-							htmlItem += "<span class='domainsbot_domainName'>";
+							htmlItem += "<li class='domainsbot_domainName'>";
 							
 							
 							var url = "#";
@@ -122,25 +122,22 @@
 							
 							// cart url
 							htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
+														
+							htmlItem += "<span bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + (options["checkAvailable"] ? "Checking.." : "" ) +"</span>";
 							
-								
-							htmlItem += "</span>";	
-							
-							htmlItem += "<span bind='domainsbotDomain' index='"+i+"'domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + (options["checkAvailable"] ? "Checking.." : "" ) +"</span>";
-							
-							htmlItem += "</div>";
+							htmlItem += "</li>";
 							
 						});
 						
 						if(data.Domains.length == 0)
-							htmlItem += "<span class='domainsbot_domainName'>No Suggestions found!</span>";
+							htmlItem += "<li class='domainsbot_domainName'>No Suggestions found!</li>";
 					}
 					else
 					{
-						htmlItem += "<span class='domainsbot_domainName'>An error occured</span>";
+						htmlItem += "<li class='domainsbot_domainName'>An error occured</li>";
 					}
 
-					htmlItem += "<div class='domainsbot_clear'></div></div>";
+					htmlItem += "</ul>";
 					
 					$(options["results"]).html(htmlItem);
 					
