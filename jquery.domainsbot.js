@@ -123,7 +123,7 @@
 							// cart url
 							htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 														
-							htmlItem += "<span bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + (options["checkAvailable"] ? "Checking.." : "" ) +"</span>";
+							htmlItem += "<span bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + ((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "") ? "Checking.." : "" ) +"</span>";
 							
 							htmlItem += "</li>";
 							
@@ -200,6 +200,7 @@
 						console.log(response);
 						//Check if domain name is available or not
 						if(response == "0"){
+							console.log($("span[bind='domainsbotDomain'][index='" + id+"']").parent());
 							$("span[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
 						}
 								
