@@ -118,22 +118,15 @@
 							
 							htmlItem += "<span class='domainsbot_domainName'>";
 							
-							if(options["onCheckout"] != null)
+							
+							var url = "";
+							if(options["urlCheckout"]  != null && options["urlCheckout"] != "")
 							{
-								// cart callback
-								htmlItem += "<a bind='domainsbotDomain' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";	
+								url = options["urlCheckout"].toLowerCase().replace("%domain%",domain.DomainName);
 							}
-							else
-							{
-								var url = "";
-								if(options["urlCheckout"]  != null && options["urlCheckout"] != "")
-								{
-									url = options["urlCheckout"].toLowerCase().replace("%domain%",domain.DomainName);
-								}
-								
-								// cart url
-								htmlItem += "<a href='"+url+"' bind='domainsbotDomain' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
-							}
+							
+							// cart url
+							htmlItem += "<a href='"+url+"' bind='domainsbotDomain' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 							
 								
 							htmlItem += "</span>";	
