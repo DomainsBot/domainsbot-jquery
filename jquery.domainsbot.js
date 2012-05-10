@@ -10,10 +10,12 @@
 	
 	    var methods = {
 		    init : function( options ) { 
-			this.InitPlugin(options);
+			InitPlugin(options);
+			return this;
 		    },
 		    search : function(key) {
-			this.getDomains(key, settings); 
+			getDomains(key, settings);
+			return this;
 		    }
 	  };
 	
@@ -31,6 +33,7 @@
   
 	    var InitPlugin = function(options)
 	    {
+		    
 		settings = $.extend( {
 			'url'         : '',
 			'urlAvailability' : "",
@@ -84,7 +87,7 @@
 				// Check if user hits the <enter>
 				if(event.keyCode == 13){
 					// calls to function
-					this.getDomains($(options["textbox"]).val(),settings);
+					getDomains($(options["textbox"]).val(),settings);
 				}
 			});
 		}
@@ -94,7 +97,7 @@
 			$(settings['submit']).click(function(){
 
 					//call the function to get result
-					this.getDomains($(options["textbox"]).val(), settings);
+					getDomains($(options["textbox"]).val(), settings);
 			});
 		}
 	    };	
@@ -188,7 +191,7 @@
 						
 						for(i = 0; i < data.Domains.length; i++)
 						{
-							this.checkAvailability(data.Domains[i].DomainName, i, options);
+							checkAvailability(data.Domains[i].DomainName, i, options);
 						}
 						
 					}
