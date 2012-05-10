@@ -118,7 +118,7 @@
 							
 							htmlItem += "<span class='domainsbot_domainName'>";
 							
-							if(options["onChekout"] != null)
+							if(options["onCheckout"] != null)
 							{
 								// cart callback
 								htmlItem += "<a bind='domainsbotDomain' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";	
@@ -128,7 +128,7 @@
 								var url = "";
 								if(options["urlCheckout"]  != null && options["urlCheckout"] != "")
 								{
-									url = options["urlCheckout"].replace("%domain%",domain.DomainName);
+									url = options["urlCheckout"].toLowerCase().replace("%domain%",domain.DomainName);
 								}
 								
 								// cart url
