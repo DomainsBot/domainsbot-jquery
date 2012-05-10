@@ -188,16 +188,16 @@
 	function checkAvailability(id, options)
 	{
 		//Get the domain name to check.
-		var domain = $("#dn_" + id).attr('domainName');
+		var domain = $("span[bind='domainsbotDomain'][index='" + id+"']").attr('domainName');
 		
 		// Built the post string.
-		var postString = "domain=" + domain;
+		var postString = options['urlAvailability'] .toLowerCase().replace("%domain%",domain);
 
 		//check if domain not empty
 		if(domain!="")
 		{ 
 			$.ajax({
-				url: options['urlAvailability']+'?' + postString,
+				url: postString,
 				method:'POST',
 				success:function(response)
 				{
