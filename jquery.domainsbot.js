@@ -199,9 +199,13 @@
 					{
 						console.log(response);
 						//Check if domain name is available or not
-						if(response == "0"){
+						if(response == 0){
 							console.log($("span[bind='domainsbotDomain'][index='" + id+"']").parent());
 							$("span[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
+						}
+						else
+						{
+							$("span[bind='domainsbotDomain'][index='" + id+"']").html();
 						}
 								
 								
