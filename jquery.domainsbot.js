@@ -25,7 +25,8 @@
 	'onError' : null,
 	'onLoading' : null,
 	'onAvailabilitySuccess' : null,
-	'onAvailabilityError' : null    
+	'onAvailabilityError' : null,
+	'onChekout' : null
       	    
     }, options);
 	
@@ -114,8 +115,28 @@
 							htmlItem +=  "<div id = 'rowBox" +i+ "' class='domainsbot_rowBox'>";
 				
 							htmlItem += "<a href='#' class='domainsbot_starBox' disabled></a>";
-							// cart url!!
-							htmlItem += "<span class='domainsbot_domainName'><a href='"+options['urlCheckout'] +"?domain="  +domain.DomainName+ "'>"+domain.DomainName+"</a></span>";	
+							
+							htmlItem += "<span class='domainsbot_domainName'>";
+							
+							if(options["onChekout"] != null)
+							{
+								// cart callback
+								htmlItem += "<a bind='domainsbotDomain' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";	
+							}
+							else
+							{
+								var url = "";
+								if(options["urlCheckout"]  != null && options["urlCheckout"] != "")
+								{
+									url = options["urlCheckout"].replace("%domain%",domain.DomainName);
+								}
+								
+								// cart url
+								htmlItem += "<a href='"+url+"' bind='domainsbotDomain' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
+							}
+							
+								
+							htmlItem += "</span>";	
 							
 							htmlItem += "<span id = 'dn_"+i+ "' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" + (options["checkAvailable"] ? "Checking.." : "" ) +"</span>";
 							
@@ -133,6 +154,15 @@
 					htmlItem += "<div class='domainsbot_clear'></div></div>";
 					
 					$(options["results"]).html(htmlItem);
+					
+					if(options["onChekout"] != null)
+					{
+						$("a[bind='domainsbotDomain']").click(function(evt)
+						{
+							options["onChekout"]({ Domain: $(this).attr("domainName")}, evt );
+						});
+					}
+					
 
 					// Check the result is nonempty?
 					cnt = (".domainsbot_domainImg").length;
@@ -174,7 +204,7 @@
 		if(domain!="")
 		{ 
 			$.ajax({
-				url: options['url_availability']+'?' + postString,
+				url: options['urlAvailability']+'?' + postString,
 				method:'POST',
 				success:function(response)
 				{
