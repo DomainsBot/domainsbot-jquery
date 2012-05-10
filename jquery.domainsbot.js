@@ -3,9 +3,32 @@
 (function( $ ) {
 
    var loader;
-   var checking;	
-  $.fn.domainsbot = function( options ) {  
-
+   var checking;
+  
+    var methods = {
+	    init : function( options ) { 
+	      // THIS 
+	    },
+	    search : function(key) {
+		getDomains(key, settings); 
+	    }
+  };
+	
+  $.fn.domainsbot = ( method ) {
+    
+	    // Method calling logic
+	    if ( methods[method] ) {
+	      return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+	    } else if ( typeof method === 'object' || ! method ) {
+	      return methods.init.apply( this, arguments );
+	    } else {
+	      $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
+	    }    
+  
+  };
+  
+  
+  
     // Create some defaults, extending them with any options that were provided
     var settings = $.extend( {
 	'url'         : '',
@@ -20,7 +43,6 @@
 	'limit' : 10,
         'removeKeys' : false,
 	'advanced' : null,
-	'key': null,
 	'onSuccess' : null,
 	'onError' : null,
 	'onLoading' : null,
@@ -29,8 +51,7 @@
 	'onCheckout' : null
       	    
     }, options);
-    
-    
+        
 	
 	if(settings['textbox'] != null){
 		// Sets focus the search text box
@@ -76,10 +97,7 @@
 				getDomains($(options["textbox"]).val(), settings);
 		});
 	}
-	
-	if(settings['key'] != null){
-		getDomains(settings['key'],settings);
-	}
+		
   };
   
   function getDomains(key,options)
@@ -136,7 +154,7 @@
 							htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 														
 							htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" 
-								+ (((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "") && options["onAvailabilitySuccess"])? checking.clone().css('display','block').wrap('<p>').parent().html()  : "" )
+								+ (((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "") && options["checking"] != null)? checking.clone().css('display','block').wrap('<p>').parent().html()  : "" )
 								+"</div>";
 							
 							htmlItem += "</div>";
@@ -221,7 +239,7 @@
 						else
 						{
 							
-							$("div[bind='domainsbotDomain'][index='" + id+"']").html("");
+							$("div[bind='domainsbotDomain'][index='" + id+"']").hide();
 						}
 								
 								
