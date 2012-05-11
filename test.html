@@ -9,6 +9,12 @@
 </head>
 
 <body>
+<div id="loader">Loading</div>
+<div id="results"></div>
+<br/>
+<br/>
+<div id="results2"></div>
+
 <script>
 	$(document).ready(function () 
 		{
@@ -19,8 +25,8 @@
 			   //textbox: "#search_box",
 			   //submit: "#search_button",
 			   
-			   loading: "#loading",
-			   checking : "#checking",
+			   loading: "#loader",
+			   //checking : "#checking",
 			   
 			   // Urls
 			   //urlApi: "domainsbot-proxy.php",
@@ -32,10 +38,35 @@
 			   // Events
 			   onCheckout: function(domain,evt){alert(domain.Domain);},
 			   
-			   onSuccess: function(res){console.log(res)},			   
-			   parameters : {"database": "sedomarket", "filters" : "dash=false"}
+			   //onSuccess: function(res){console.log(res)},			   
+			   parameters : {"database": "sedomarket", "filters" : "dash=false", "pageSize" : 5}
 			   
 			   });
+			  
+			 var client1 = $().domainsbot({
+			   // Selectors
+			   results: "#results2",
+			   
+			   //textbox: "#search_box",
+			   //submit: "#search_button",
+			   
+			   loading: "#loader",
+			   //checking : "#checking",
+			   
+			   // Urls
+			   //urlApi: "domainsbot-proxy.php",
+			   urlApi: "http://xml.domainsbot.com/xmlservices/spinner.aspx",
+			   
+			   //urlCheckout: "http://www.go.co/register/?domain=%domain%&src=DomainsBot&medium=BuyPage&campaign=Test&aff=xTa913f",
+			   //urlAvailability: "domainsbot-check.php?domain=%domain%",
+			   
+			   // Events
+			   onCheckout: function(domain,evt){alert(domain.Domain);},
+			   
+			   //onSuccess: function(res){console.log(res)},			   
+			   parameters : {"database": "sedomarket", "filters" : "dash=false", "pageSize" : 5}
+			   
+			   }); 
 			  
 			  console.log(client);
 			  
@@ -55,6 +86,7 @@
 			  
 			  var domain = "test";
 			  client.search(domain);
+			  client1.search(domain);
 			  
 			  
 		});

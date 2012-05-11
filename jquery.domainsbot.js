@@ -8,9 +8,7 @@
 		var checking;
 		var settings = null;
 		
-		
-		
-		this.settings = $.extend( {
+		settings = $.extend( {
 			'urlApi'         : '',
 			'urlAvailability' : "",
 			'urlCheckout' : "",  
@@ -28,49 +26,49 @@
 			'onCheckout' : null
 			    
 		 }, options);
-		 
-		 if(this.settings.textbox != null){
+		 console.log(settings);
+		 if(settings.textbox != null){
 			// Sets focus the search text box
-			$(this.settings.textbox).focus();
+			$(settings.textbox).focus();
 		}
 
 
-		if(this.settings.loading != null){
+		if(settings.loading != null){
 			// Sets variable with ajax loader image
-			$(this.settings.loading).css('display','none');
+			$(settings.loading).css('display','none');
 			
-			this.loader = $(this.settings.loading).clone();
+			loader = $(settings.loading).clone();
 			
 			//this.loader.remove();
 		}
 
-		if(this.settings.checking != null){
+		if(settings.checking != null){
 			// Sets variable with ajax loader image
-			$(this.settings.checking).css('display','none');
+			$(settings.checking).css('display','none');
 			
-			this.checking = $(this.settings.checking).clone();
+			checking = $(settings.checking).clone();
 			
 			//this.checking.remove();
 		}
 
-		if(this.settings.textbox != null){
+		if(settings.textbox != null){
 			// Check for Key down event on Search text box
-			$(this.settings.textbox).keydown(function(event) {
+			$(settings.textbox).keydown(function(event) {
 
 				// Check if user hits the <enter>
 				if(event.keyCode == 13){
 					// calls to function
-					GetDomains($(this.settings.textbox).val(),settings);
+					GetDomains($(settings.textbox).val(),settings);
 				}
 			});
 		}
 
-		if(this.settings.submit != null && this.settings.textbox != null){
+		if(settings.submit != null && settings.textbox != null){
 			// Check the click event, search btn pressed
-			$(this.settings.submit).click(function(){
+			$(settings.submit).click(function(){
 
 					//call the function to get result
-					GetDomains($(this.settings.textbox).val(), settings);
+					GetDomains($(settings.textbox).val(), settings);
 			});
 		}
 			
@@ -94,9 +92,10 @@
 			$(options.results).html("");
 			
 			if(options.loading != null){
-				$(options.results).append(this.loader);
+				console.log(loader);
+				$(options.results).append(loader);
 				// Set teh ajax loader image
-				$(this.loader).css('display','');
+				$(loader).css('display','block');
 			}
 			
 			if(options.onLoad != null){
@@ -129,7 +128,7 @@
 								htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 															
 								htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" 
-									+ (((options.urlAvailability != null && options.urlAvailability != "") || (options.onAvailabilitySuccess != null && options.onAvailabilitySuccess != "") && options.checking != null)? this.checking.clone().css('display','block').wrap('<p>').parent().html()  : "" )
+									+ (((options.urlAvailability != null && options.urlAvailability != "") || (options.onAvailabilitySuccess != null && options.onAvailabilitySuccess != "") && options.checking != null)? checking.clone().css('display','block').wrap('<p>').parent().html()  : "" )
 									+"</div>";
 								
 								htmlItem += "</div>";
@@ -234,7 +233,7 @@
 		this.search = function(key)
 		{
 			
-			GetDomains(key, this.settings);
+			GetDomains(key, settings);
 		};
 	   };
 	
