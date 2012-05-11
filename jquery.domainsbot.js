@@ -149,7 +149,7 @@
 						
 						if(options.onCheckout != null)
 						{
-							$("a[bind='domainsbotDomainLink']").click(function(evt)
+							$(options.results).find("a[bind='domainsbotDomainLink']").click(function(evt)
 							{
 								
 								options.onCheckout({ Domain: $(this).attr("domainName")}, evt );
@@ -207,12 +207,12 @@
 						if(response == 0)
 						{
 							
-							$("div[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
+							$(options.results).find("div[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
 						}
 						else
 						{
 							
-							$("div[bind='domainsbotDomain'][index='" + id+"']").hide();
+							$(options.results).find("div[bind='domainsbotDomain'][index='" + id+"']").hide();
 						}
 								
 								
