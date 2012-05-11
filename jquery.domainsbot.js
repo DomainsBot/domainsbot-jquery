@@ -39,18 +39,18 @@
 			// Sets variable with ajax loader image
 			$(this.settings.loading).css('display','none');
 			
-			this.loader = $(this.settings.loading);
+			this.loader = $(this.settings.loading).clone();
 			
-			this.loader.remove();
+			//this.loader.remove();
 		}
 
 		if(this.settings.checking != null){
 			// Sets variable with ajax loader image
 			$(this.settings.checking).css('display','none');
 			
-			this.checking = $(this.settings.checking);
+			this.checking = $(this.settings.checking).clone();
 			
-			this.checking.remove();
+			//this.checking.remove();
 		}
 
 		if(this.settings.textbox != null){
