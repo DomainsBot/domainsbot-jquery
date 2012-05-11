@@ -14,7 +14,7 @@
 			return this;
 		    },
 		    search : function(key) {
-			GetDomains(key, settings);
+			getDomains(key, settings);
 			return this;
 		    }
 	  };
@@ -87,7 +87,7 @@
 				// Check if user hits the <enter>
 				if(event.keyCode == 13){
 					// calls to function
-					GetDomains($(options["textbox"]).val(),settings);
+					getDomains($(options["textbox"]).val(),settings);
 				}
 			});
 		}
@@ -95,15 +95,14 @@
 		if(settings['submit'] != null && settings['textbox'] != null){
 			// Check the click event, search btn pressed
 			$(settings['submit']).click(function(){
-				
 
 					//call the function to get result
-					GetDomains($(options["textbox"]).val(), settings);
+					getDomains($(options["textbox"]).val(), settings);
 			});
 		}
 	    };	
 	    
-	    var GetDomains = function (key,options)
+	    var getDomain = function (key,options)
 	    {
 		 var cnt = 0; var i;
 		
