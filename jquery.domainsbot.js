@@ -14,7 +14,7 @@
 			return this;
 		    },
 		    search : function(key) {
-			getDomains(key, settings);
+			GetDomains(key, settings);
 			return this;
 		    }
 	  };
@@ -87,7 +87,7 @@
 				// Check if user hits the <enter>
 				if(event.keyCode == 13){
 					// calls to function
-					getDomains($(options["textbox"]).val(),settings);
+					GetDomains($(options["textbox"]).val(),settings);
 				}
 			});
 		}
@@ -97,12 +97,12 @@
 			$(settings['submit']).click(function(){
 
 					//call the function to get result
-					getDomains($(options["textbox"]).val(), settings);
+					GetDomains($(options["textbox"]).val(), settings);
 			});
 		}
 	    };	
 	    
-	    var getDomain = function (key,options)
+	    var GetDomains = function (key,options)
 	    {
 		 var cnt = 0; var i;
 		
