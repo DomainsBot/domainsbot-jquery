@@ -95,6 +95,7 @@
 		if(settings['submit'] != null && settings['textbox'] != null){
 			// Check the click event, search btn pressed
 			$(settings['submit']).click(function(){
+				
 
 					//call the function to get result
 					GetDomains($(options["textbox"]).val(), settings);
