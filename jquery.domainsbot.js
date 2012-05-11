@@ -6,17 +6,17 @@
 	   {
 		var loader;
 		var checking;
-		var settings = null;
-		
-		settings = $.extend( {
+		   
+		var settings = $.extend( {
 			'urlApi'         : '',
 			'urlAvailability' : "",
 			'urlCheckout' : "",  
-			'textbox' : null,
-			'submit' : null,
+			'searchTextbox' : null,
+			'searchSubmit' : null,
 			'loading' : null,
 			'checking' : null,
 			'results' : null,
+			'searchParameter' : null,
 			'parameters' : null,
 			'onSuccess' : null,
 			'onError' : null,
@@ -26,52 +26,63 @@
 			'onCheckout' : null
 			    
 		 }, options);
-		 console.log(settings);
-		 if(settings.textbox != null){
-			// Sets focus the search text box
-			$(settings.textbox).focus();
-		}
+		 
+		var GetUrlVars =  function ()
+		{
+		   var vars = [], hash;
+		   var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		   for(var i = 0; i < hashes.length; i++)
+		   {
+			   hash = hashes[i].split('=');
+			   vars.push(hash[0]);
+			   vars[hash[0]] = hash[1];
+		   }
+		   return vars;
+		};
+		var checkAvailability = function (domain, id, options)
+		{
+		    
+			// Built the post string.
+			var postString = options.urlAvailability.toLowerCase().replace("%domain%",domain);
 
-
-		if(settings.loading != null){
-			// Sets variable with ajax loader image
-			$(settings.loading).css('display','none');
-			
-			loader = $(settings.loading).clone();
-			
-			//this.loader.remove();
-		}
-
-		if(settings.checking != null){
-			// Sets variable with ajax loader image
-			$(settings.checking).css('display','none');
-			
-			checking = $(settings.checking).clone();
-			
-			//this.checking.remove();
-		}
-
-		if(settings.textbox != null){
-			// Check for Key down event on Search text box
-			$(settings.textbox).keydown(function(event) {
-
-				// Check if user hits the <enter>
-				if(event.keyCode == 13){
-					// calls to function
-					GetDomains($(settings.textbox).val(),settings);
-				}
-			});
-		}
-
-		if(settings.submit != null && settings.textbox != null){
-			// Check the click event, search btn pressed
-			$(settings.submit).click(function(){
-
-					//call the function to get result
-					GetDomains($(settings.textbox).val(), settings);
-			});
-		}
-			
+			//check if domain not empty
+			if(domain!="")
+			{ 
+				$.ajax({
+					url: postString,
+					method:'POST',
+					success:function(response)
+					{
+						if(options.onAvailabilitySuccess != null){
+							options.onAvailabilitySuccess({ Domain: domain, Index: id, Available:  response == "1"? true : false} );
+						}
+						if(options.urlAvailability != null && options.urlAvailability != "")
+						{
+							
+							//Check if domain name is available or not
+							if(response == 0)
+							{
+								
+								$(options.results).find("div[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
+							}
+							else
+							{
+								
+								$(options.results).find("div[bind='domainsbotDomain'][index='" + id+"']").hide();
+							}
+									
+									
+						}
+					},
+					error: function(response){
+						if(options.onAvailabilityError != null){
+							options.onAvailabilityError (response);
+						}
+					}
+				});
+			}
+		    
+		}; 
 		var GetDomains = function (key,options)
 		{
 			 var cnt = 0; var i;
@@ -182,51 +193,68 @@
 			
 			
 		};
+		
+		
 	    
-		var checkAvailability = function (domain, id, options)
-		{
-		    
-		// Built the post string.
-		var postString = options.urlAvailability.toLowerCase().replace("%domain%",domain);
+		  
+		
+		 if(settings.searchTextbox != null){
+			// Sets focus the search text box
+			$(settings.searchTextbox).focus();
+		}
 
-		//check if domain not empty
-		if(domain!="")
-		{ 
-			$.ajax({
-				url: postString,
-				method:'POST',
-				success:function(response)
-				{
-					if(options.onAvailabilitySuccess != null){
-						options.onAvailabilitySuccess({ Domain: domain, Index: id, Available:  response == "1"? true : false} );
-					}
-					if(options.urlAvailability != null && options.urlAvailability != "")
-					{
-						
-						//Check if domain name is available or not
-						if(response == 0)
-						{
-							
-							$(options.results).find("div[bind='domainsbotDomain'][index='" + id+"']").parent().hide();	
-						}
-						else
-						{
-							
-							$(options.results).find("div[bind='domainsbotDomain'][index='" + id+"']").hide();
-						}
-								
-								
-					}
-				},
-				error: function(response){
-					if(options.onAvailabilityError != null){
-						options.onAvailabilityError (response);
-					}
+
+		if(settings.loading != null){
+			// Sets variable with ajax loader image
+			$(settings.loading).css('display','none');
+			
+			loader = $(settings.loading).clone();
+			
+			//this.loader.remove();
+		}
+
+		if(settings.checking != null){
+			// Sets variable with ajax loader image
+			$(settings.checking).css('display','none');
+			
+			checking = $(settings.checking).clone();
+			
+			//this.checking.remove();
+		}
+		// Enter button
+		if(settings.searchTextbox != null){
+			// Check for Key down event on Search text box
+			$(settings.searchTextbox).keydown(function(event) {
+
+				// Check if user hits the <enter>
+				if(event.keyCode == 13){
+					// calls to function
+					GetDomains($(settings.searchTextbox).val(),settings);
 				}
 			});
 		}
-		    
-		};
+		
+		
+		if(settings.searchSubmit != null && settings.searchTextbox != null){
+			// Check the click event, search btn pressed
+			$(settings.searchSubmit).click(function(){
+
+					//call the function to get result
+					GetDomains($(settings.searchTextbox).val(), settings);
+			});
+		}
+		
+		if(settings.searchParameter != null && settings.searchParameter != ""){
+			
+			var p = GetUrlVars();
+			
+			if(p != null && p[settings.searchParameter] != null && p[settings.searchParameter] != ""){
+				console.log(p[settings.searchParameter] );
+				GetDomains(p[settings.searchParameter], settings);
+			}
+		}
+			
+		
 		
 
 		// Public method
