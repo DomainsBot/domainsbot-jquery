@@ -9,14 +9,56 @@
 </head>
 
 <body>
-
-	<script>
-		var ret = $().domainsbot({textbox:"cazzo"});
-		ret.search("cazzo");
-		console.log(ret);
-		
+<script>
+	$(document).ready(function () 
+		{
+			  var client = $().domainsbot({
+			   // Selectors
+			   results: "#results",
+			   
+			   //textbox: "#search_box",
+			   //submit: "#search_button",
+			   
+			   loading: "#loading",
+			   checking : "#checking",
+			   
+			   // Urls
+			   //urlApi: "domainsbot-proxy.php",
+			   urlApi: "http://xml.domainsbot.com/xmlservices/spinner.aspx",
+			   
+			   //urlCheckout: "http://www.go.co/register/?domain=%domain%&src=DomainsBot&medium=BuyPage&campaign=Test&aff=xTa913f",
+			   //urlAvailability: "domainsbot-check.php?domain=%domain%",
+			   
+			   // Events
+			   onCheckout: function(domain,evt){alert(domain.Domain);},
+			   
+			   onSuccess: function(res){console.log(res)},			   
+			   parameters : {"database": "sedomarket", "filters" : "dash=false"}
+			   
+			   });
+			  
+			  console.log(client);
+			  
+			  function getUrlVars()
+			  {
+			   var vars = [], hash;
+			   var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			   for(var i = 0; i < hashes.length; i++)
+			   {
+			   hash = hashes[i].split('=');
+			   vars.push(hash[0]);
+			   vars[hash[0]] = hash[1];
+			   }
+			   return vars;
+			  }
+			  
+			  
+			  var domain = "test";
+			  client.search(domain);
+			  
+			  
+		});
 	</script>
-
 </body>
 
 </html>

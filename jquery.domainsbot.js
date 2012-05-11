@@ -102,10 +102,10 @@
 			if(options.onLoad != null){
 				options.onLoad();
 			}
-			
+			//console.log(options.urlApi +"?" + postString);
 			// Make the ajax call to domain.php
 			$.ajax({
-				url:options['urlApi'] +"?" + postString,
+				url:options.urlApi +"?" + postString + "&callback=?",
 				dataType: 'json',
 				success:function(data)
 				{	
