@@ -8,7 +8,7 @@
 		var checking;
 		   
 		var settings = $.extend( {
-			'urlApi'         : '',
+			'urlApi'         : 'https://xml.domainsbot.com/xmlservices/spinner.aspx',
 			'urlAvailability' : "",
 			'urlCheckout' : "",  
 			'searchTextbox' : null,
@@ -127,7 +127,7 @@
 						if(data && data.Domains){
 							$.each(data.Domains, function(i,domain){
 								
-								htmlItem += "<div class='domainsbot_domainName'>";
+								htmlItem += "<div >";
 								
 								var url = "";
 								if(options.urlCheckout  != null && options.urlCheckout != "")
@@ -138,7 +138,7 @@
 								// cart url
 								htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 															
-								htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" 
+								htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' >" 
 									+ (((options.urlAvailability != null && options.urlAvailability != "") || (options.onAvailabilitySuccess != null && options.onAvailabilitySuccess != "") && options.checking != null)? checking.clone().css('display','block').wrap('<p>').parent().html()  : "" )
 									+"</div>";
 								
@@ -287,10 +287,4 @@
 		    }    
 	  
 	  };
-  
-	    
-	    
-	    
-	
-  
 })( jQuery );
