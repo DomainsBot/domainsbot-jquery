@@ -63,7 +63,7 @@
 					// Check if user hits the <enter>
 					if(event.keyCode == 13){
 						// calls to function
-						GetDomains($(options["textbox"]).val(),settings);
+						GetDomains($(settings["textbox"]).val(),settings);
 					}
 				});
 			}
@@ -73,7 +73,7 @@
 				$(settings['submit']).click(function(){
 
 						//call the function to get result
-						GetDomains($(options["textbox"]).val(), settings);
+						GetDomains($(settings["textbox"]).val(), settings);
 				});
 			}
 		};
