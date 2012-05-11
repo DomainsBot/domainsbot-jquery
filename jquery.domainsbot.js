@@ -6,78 +6,74 @@
 	   {
 		var loader;
 		var checking;
-		var settings;
+		var settings = null;
 		
 		
-       
-		var InitPlugin = function(options)
-		{
-		    
-			settings = $.extend( {
-				'urlApi'         : '',
-				'urlAvailability' : "",
-				'urlCheckout' : "",  
-				'textbox' : null,
-				'submit' : null,
-				'loading' : null,
-				'checking' : null,
-				'results' : null,
-				'parameters' : null,
-				'onSuccess' : null,
-				'onError' : null,
-				'onLoading' : null,
-				'onAvailabilitySuccess' : null,
-				'onAvailabilityError' : null,
-				'onCheckout' : null
-				    
-			 }, options);
+		
+		this.settings = $.extend( {
+			'urlApi'         : '',
+			'urlAvailability' : "",
+			'urlCheckout' : "",  
+			'textbox' : null,
+			'submit' : null,
+			'loading' : null,
+			'checking' : null,
+			'results' : null,
+			'parameters' : null,
+			'onSuccess' : null,
+			'onError' : null,
+			'onLoading' : null,
+			'onAvailabilitySuccess' : null,
+			'onAvailabilityError' : null,
+			'onCheckout' : null
 			    
-			 if(settings['textbox'] != null){
-				// Sets focus the search text box
-				$(settings['textbox']).focus();
-			}
+		 }, options);
+		 
+		 if(this.settings.textbox != null){
+			// Sets focus the search text box
+			$(this.settings.textbox).focus();
+		}
 
 
-			if(settings['loading'] != null){
-				// Sets variable with ajax loader image
-				$(settings['loading']).css('display','none');
-				
-				loader = $(settings['loading']);
-				
-				loader.remove();
-			}
+		if(this.settings.loading != null){
+			// Sets variable with ajax loader image
+			$(this.settings.loading).css('display','none');
+			
+			this.loader = $(this.settings.loading);
+			
+			this.loader.remove();
+		}
 
-			if(settings['checking'] != null){
-				// Sets variable with ajax loader image
-				$(settings['checking']).css('display','none');
-				
-				checking = $(settings['checking']);
-				
-				checking.remove();
-			}
+		if(this.settings.checking != null){
+			// Sets variable with ajax loader image
+			$(this.settings.checking).css('display','none');
+			
+			this.checking = $(this.settings.checking);
+			
+			this.checking.remove();
+		}
 
-			if(settings['textbox'] != null){
-				// Check for Key down event on Search text box
-				$(settings['textbox']).keydown(function(event) {
+		if(this.settings.textbox != null){
+			// Check for Key down event on Search text box
+			$(this.settings.textbox).keydown(function(event) {
 
-					// Check if user hits the <enter>
-					if(event.keyCode == 13){
-						// calls to function
-						GetDomains($(settings["textbox"]).val(),settings);
-					}
-				});
-			}
+				// Check if user hits the <enter>
+				if(event.keyCode == 13){
+					// calls to function
+					GetDomains($(this.settings.textbox).val(),settings);
+				}
+			});
+		}
 
-			if(settings['submit'] != null && settings['textbox'] != null){
-				// Check the click event, search btn pressed
-				$(settings['submit']).click(function(){
+		if(this.settings.submit != null && this.settings.textbox != null){
+			// Check the click event, search btn pressed
+			$(this.settings.submit).click(function(){
 
-						//call the function to get result
-						GetDomains($(settings["textbox"]).val(), settings);
-				});
-			}
-		};
-
+					//call the function to get result
+					GetDomains($(this.settings.textbox).val(), settings);
+			});
+		}
+			
 		var GetDomains = function (key,options)
 		{
 			 var cnt = 0; var i;
@@ -89,22 +85,22 @@
 			// Binds the post string with key term and suggestion
 			postString = "q=" + escape(key);
 			
-			for(var index in options["parameters"]) {
-					postString += "&"+index+"="+escape(options["parameters"][index]);
+			for(var index in options.parameters) {
+					postString += "&"+index+"="+escape(options.parameters[index]);
 			}
 			
 			
 			
-			$(options["results"]).html("");
+			$(options.results).html("");
 			
-			if(options['loading'] != null){
-				$(options["results"]).append(loader);
+			if(options.loading != null){
+				$(options.results).append(this.loader);
 				// Set teh ajax loader image
-				$(loader).css('display','');
+				$(this.loader).css('display','');
 			}
 			
-			if(options['onLoad'] != null){
-				options['onLoad']();
+			if(options.onLoad != null){
+				options.onLoad();
 			}
 			
 			// Make the ajax call to domain.php
@@ -113,8 +109,8 @@
 				dataType: 'json',
 				success:function(data)
 				{	
-					if(options['onSuccess'] != null){
-						options['onSuccess'](data);
+					if(options.onSuccess != null){
+						options.onSuccess(data);
 					}
 					else{
 						var htmlItem = "";
@@ -124,16 +120,16 @@
 								htmlItem += "<div class='domainsbot_domainName'>";
 								
 								var url = "";
-								if(options["urlCheckout"]  != null && options["urlCheckout"] != "")
+								if(options.urlCheckout  != null && options.urlCheckout != "")
 								{
-									url = options["urlCheckout"].toLowerCase().replace("%domain%",domain.DomainName);
+									url = options.urlCheckout.toLowerCase().replace("%domain%",domain.DomainName);
 								}
 								
 								// cart url
 								htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
 															
 								htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' class='domainsbot_domainImg'>" 
-									+ (((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "") && options["checking"] != null)? checking.clone().css('display','block').wrap('<p>').parent().html()  : "" )
+									+ (((options.urlAvailability != null && options.urlAvailability != "") || (options.onAvailabilitySuccess != null && options.onAvailabilitySuccess != "") && options.checking != null)? this.checking.clone().css('display','block').wrap('<p>').parent().html()  : "" )
 									+"</div>";
 								
 								htmlItem += "</div>";
@@ -143,28 +139,28 @@
 						}
 						else
 						{
-							if(options['onError'] != null){
-								options['onError'](data);
+							if(options.onError != null){
+								options.onError(data);
 							}
 						}
 
 						
 						
-						$(options["results"]).html(htmlItem);
+						$(options.results).html(htmlItem);
 						
-						if(options["onCheckout"] != null)
+						if(options.onCheckout != null)
 						{
 							$("a[bind='domainsbotDomainLink']").click(function(evt)
 							{
 								
-								options["onCheckout"]({ Domain: $(this).attr("domainName")}, evt );
+								options.onCheckout({ Domain: $(this).attr("domainName")}, evt );
 							});
 						}
 						
 
 						
 						
-						if((options["urlAvailability"] != null && options["urlAvailability"] != "") || (options["onAvailabilitySuccess"] != null && options["onAvailabilitySuccess"] != "")){
+						if((options.urlAvailability != null && options.urlAvailability != "") || (options.onAvailabilitySuccess != null && options.onAvailabilitySuccess != "")){
 							
 							for(i = 0; i < data.Domains.length; i++)
 							{
@@ -178,21 +174,21 @@
 				},
 				error: function(data)
 				{
-					if(options['onError'] != null){
-						options['onError'](data);
+					if(options.onError != null){
+						options.onError(data);
 					}
 					
 				}
 			});
 			
-			InitPlugin(options);
+			
 		};
 	    
 		var checkAvailability = function (domain, id, options)
 		{
 		    
 		// Built the post string.
-		var postString = options['urlAvailability'].toLowerCase().replace("%domain%",domain);
+		var postString = options.urlAvailability.toLowerCase().replace("%domain%",domain);
 
 		//check if domain not empty
 		if(domain!="")
@@ -202,10 +198,10 @@
 				method:'POST',
 				success:function(response)
 				{
-					if(options["onAvailabilitySuccess"] != null){
-						options["onAvailabilitySuccess"]({ Domain: domain, Index: id, Available:  response == "1"? true : false} );
+					if(options.onAvailabilitySuccess != null){
+						options.onAvailabilitySuccess({ Domain: domain, Index: id, Available:  response == "1"? true : false} );
 					}
-					if(options["urlAvailability"] != null && options["urlAvailability"] != "")
+					if(options.urlAvailability != null && options.urlAvailability != "")
 					{
 						
 						//Check if domain name is available or not
@@ -224,12 +220,8 @@
 					}
 				},
 				error: function(response){
-					if(options["onAvailabilityError"] != null){
-						options["onAvailabilityError"] (response);
-					}
-					else
-					{
-						$("#rowBox" + id).hide();	
+					if(options.onAvailabilityError != null){
+						options.onAvailabilityError (response);
 					}
 				}
 			});
@@ -241,7 +233,8 @@
 		// Public method
 		this.search = function(key)
 		{
-			GetDomains(key, settings);
+			
+			GetDomains(key, this.settings);
 		};
 	   };
 	
@@ -251,7 +244,7 @@
 	    var methods = {
 		    init : function( options ) { 
 			var ret = new DomainsBotApi(options);
-			console.log(ret);
+			
 			return ret;
 		    }
 	  };
