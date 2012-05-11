@@ -117,6 +117,8 @@
 				postString += "&"+index+"="+options["advanced"][index];
 		}
 		
+		
+		
 		$(options["results"]).html("");
 		
 		if(options['loading'] != null){
@@ -129,7 +131,7 @@
 			options['onLoad']();
 		}
 		
-
+		console.log(options['url'] +"?" + postString);
 		// Make the ajax call to domain.php
 		$.ajax({
 			url:options['url'] +"?" + postString,
@@ -163,12 +165,12 @@
 							
 						});
 						
-						if(data.Domains.length == 0)
-							htmlItem += "<div class='domainsbot_domainName'>No Suggestions found!</div>";
 					}
 					else
 					{
-						htmlItem += "<div class='domainsbot_domainName'>An error occured</div>";
+						if(options['onError'] != null){
+							options['onError'](data);
+						}
 					}
 
 					
@@ -203,9 +205,6 @@
 			{
 				if(options['onError'] != null){
 					options['onError'](data);
-				}
-				else{
-					$(options["results"]).html("<span class='domainsbot_domainName'>An error occured</span>");
 				}
 				
 			}
