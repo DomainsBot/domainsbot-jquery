@@ -1,5 +1,107 @@
 /*Copyright 2012, DomainsBot Inc. */
 
+(function ($) {
+
+    var data = new Array();
+    var maxCounter = 50;
+    var checkDelay = 10;
+
+    var isStart = false;
+
+    var methods = {
+
+        init: function (options) {
+            //checkDelay = options.delay;
+            this.each(function () {
+		 
+                var dummy = new Object();
+		dummy.target =   $(this);  
+                dummy.name = "";
+                dummy.isTyping = false;
+                dummy.notChangedCounter = 0;
+                dummy.onType = options.onType;
+                dummy.onTyped = options.onTyped;
+		console.log(dummy);
+                data.push(dummy);
+            });
+	    isStart = true;
+            setTimeout(CheckTyping, checkDelay);
+	    return this;
+            
+        },
+        start: function () {
+            
+
+        },
+        destroy: function () {
+            data = new Array();
+            maxCounter = 50;
+            checkDelay = 10;
+            isStart = false;
+
+        }
+
+    };
+
+
+    $.fn.InstantSearch = function (method) {
+        if (methods[method]) {
+
+
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === 'object' || !method) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error('Method ' + method + ' does not exist on jQuery.InstantSearch');
+        }
+    };
+
+
+    function CheckTyping() {
+        if (!isStart)
+            return;
+
+        $.each(data, function (index, item) {
+
+            //Changed?
+            var text = item.target.val();
+
+            if (item.name != text) {
+
+                item.isTyping = true;
+                item.notChangedCounter = 0;
+
+                item.name = text;
+
+                // Callback
+		if(item.onType != null)
+			item.onType(text);
+
+
+            }
+            else if (item.notChangedCounter >= 0) {
+                item.notChangedCounter++;
+            }
+
+            if (item.notChangedCounter > maxCounter && item.name != "") {
+                item.isTyping = false;
+                item.notChangedCounter = -1;
+                
+		if(item.onTyped != null)    
+		    item.onTyped(text);
+                
+            }
+
+        });
+
+        setTimeout(CheckTyping, checkDelay);
+
+    }
+
+    //  ...
+    // end of closure
+})(jQuery);
+
 (function( $ ) {
 
 	   var DomainsBotApi  = function(options)
@@ -23,7 +125,8 @@
 			'onLoading' : null,
 			'onAvailabilitySuccess' : null,
 			'onAvailabilityError' : null,
-			'onCheckout' : null
+			'onCheckout' : null,
+			'autoComplete' : false
 			    
 		 }, options);
 		 
@@ -49,10 +152,12 @@
 			if(domain!="")
 			{ 
 				$.ajax({
+					cache:false,
 					url: postString,
 					method:'POST',
 					success:function(response)
 					{
+						
 						if(options.onAvailabilitySuccess != null){
 							options.onAvailabilitySuccess({ Domain: domain, Index: id, Available:  response == "1"? true : false} );
 						}
@@ -99,8 +204,8 @@
 			}
 			
 			
-			
-			$(options.results).html("");
+			if(options.results != null)
+				$(options.results).html("");
 			
 			if(options.loading != null){
 				console.log(loader);
@@ -112,17 +217,31 @@
 			if(options.onLoad != null){
 				options.onLoad();
 			}
-			//console.log(options.urlApi +"?" + postString);
+			
 			// Make the ajax call to domain.php
 			$.ajax({
 				url:options.urlApi +"?" + postString + "&callback=?",
-				dataType: 'json',
+				dataType: 'jsonp',
 				success:function(data)
 				{	
+					
+					if(data == null || data.error != null){
+						if(options.onError != null){
+							
+							options.onError(data.error);
+						}
+						if(options.results != null)
+						{
+							$(options.results).html(data.error.message);
+						}
+						return;
+					}
+					
 					if(options.onSuccess != null){
 						options.onSuccess(data);
 					}
-					else{
+					if(options.results != null){
+						$(options.results).html("");
 						var htmlItem = "";
 						if(data && data.Domains){
 							$.each(data.Domains, function(i,domain){
@@ -182,10 +301,15 @@
 						
 					}
 				},
-				error: function(data)
+				error: function(xhr, ajaxOptions, thrownError)
 				{
 					if(options.onError != null){
-						options.onError(data);
+							
+						options.onError(thrownError);
+					}
+					else if(options.results != null)
+					{
+						$(options.results).html(thrownError);
 					}
 					
 				}
@@ -201,6 +325,42 @@
 		 if(settings.searchTextbox != null){
 			// Sets focus the search text box
 			$(settings.searchTextbox).focus();
+			 // Enter button
+			 // Check for Key down event on Search text box
+			$(settings.searchTextbox).keydown(function(event) {
+
+				// Check if user hits the <enter>
+				if(event.keyCode == 13){
+					// calls to function
+					GetDomains($(settings.searchTextbox).val(),settings);
+				}
+			});
+			
+			if(settings.results != null && settings.autoComplete)
+			{
+				$(settings.searchTextbox).InstantSearch({
+					onTyped: function(text){
+						
+						GetDomains(text,settings);
+					},
+					onType: function(text){
+						if(options.results != null)
+							$(options.results).html("");
+						
+						if(options.loading != null){
+							console.log(loader);
+							$(options.results).append(loader);
+							// Set teh ajax loader image
+							$(loader).css('display','block');
+						}
+						
+						if(options.onLoad != null){
+							options.onLoad();
+						}
+					}
+				});
+			}
+			
 		}
 
 
@@ -220,18 +380,6 @@
 			checking = $(settings.checking).clone();
 			
 			//this.checking.remove();
-		}
-		// Enter button
-		if(settings.searchTextbox != null){
-			// Check for Key down event on Search text box
-			$(settings.searchTextbox).keydown(function(event) {
-
-				// Check if user hits the <enter>
-				if(event.keyCode == 13){
-					// calls to function
-					GetDomains($(settings.searchTextbox).val(),settings);
-				}
-			});
 		}
 		
 		
@@ -288,3 +436,5 @@
 	  
 	  };
 })( jQuery );
+
+

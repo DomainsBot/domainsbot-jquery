@@ -30,10 +30,13 @@
 			   searchParameter: "d",
 			   searchTextbox : "#search_box",
 			   searchSubmit : "#search_button",
+			   //urlApi : 'http://www.google.com',
 			   // Events
-			   onCheckout: function(domain,evt){alert(domain.Domain);},			   
-			   parameters : {"database": "available", "pageSize" : 5}
-			   
+			   onCheckout: function(domain,evt){alert(domain.Domain);},
+			   //onSuccess: function(data){alert(data)},
+			   parameters : {"database": "available", "pageSize" : 5},
+			   onError: function(err){alert(err.message);},
+			   autoComplete: true
 			   });
 			  
 			 var client1 = $().domainsbot({
@@ -44,8 +47,8 @@
 			   // Events
 			   onCheckout: function(domain,evt){alert(domain.Domain);},
 			   //onSuccess: function(res){console.log(res)},			   
-			   parameters : {"database": "sedomarket", "filters" : "dash=false", "pageSize" : 5}
-			   
+			   parameters : {"database": "sedomarket", "filters" : "dash=false", "pageSize" : 5, "auth-token": ""},
+			   autoComplete: true
 			});
 			
 			/*var domain = "test";
