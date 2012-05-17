@@ -340,23 +340,33 @@
 			{
 				$(settings.searchTextbox).InstantSearch({
 					onTyped: function(text){
-						
-						GetDomains(text,settings);
+						if(text != null && text != "")
+						{
+							GetDomains(text,settings);
+						}
+						else
+						{
+							if(options.results != null)
+								$(options.results).html("");
+						}
 					},
 					onType: function(text){
 						if(options.results != null)
 							$(options.results).html("");
+						if(text != null && text != "")
+						{
+							if(options.loading != null){
+								console.log(loader);
+								$(options.results).append(loader);
+								// Set teh ajax loader image
+								$(loader).css('display','block');
+							}
 						
-						if(options.loading != null){
-							console.log(loader);
-							$(options.results).append(loader);
-							// Set teh ajax loader image
-							$(loader).css('display','block');
-						}
+							if(options.onLoad != null){
+								options.onLoad();
+							}
+						} 
 						
-						if(options.onLoad != null){
-							options.onLoad();
-						}
 					}
 				});
 			}
