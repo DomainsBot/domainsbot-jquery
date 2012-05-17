@@ -109,10 +109,16 @@
 		var loader;
 		var checking;
 		   
+		if(typeof options.urlCheckout == "string")
+		{
+			var checkoutHash = {available : options.urlCheckout};
+			options.urlCheckout = checkoutHash;
+		}
+		   
 		var settings = $.extend( {
 			'urlApi'         : 'https://xml.domainsbot.com/xmlservices/spinner.aspx',
-			'urlAvailability' : "",
-			'urlCheckout' : "",  
+			'urlAvailability' : null,
+			'urlCheckout' : null,  
 			'searchTextbox' : null,
 			'searchSubmit' : null,
 			'loading' : null,
@@ -129,8 +135,19 @@
 			'autoComplete' : false
 			    
 		 }, options);
+		
+		 var getDataField = function (fieldName,data) 
+		 {
+    
+			    for(var i = 0; i<data.length; i++)
+			    {
+				if(data[i].Name == fieldName)
+				    return data[i].Data;
+			    }
+			    return null;
+		};
 		 
-		var GetUrlVars =  function ()
+		var getUrlVars =  function ()
 		{
 		   var vars = [], hash;
 		   var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -247,11 +264,17 @@
 							$.each(data.Domains, function(i,domain){
 								
 								htmlItem += "<div >";
+								var database = null;
+								if(domain.Data != null && domain.Data.length > 0)
+								{
+									database = getDataField("database", domain.Data[0]);
+								}
 								
 								var url = "";
-								if(options.urlCheckout  != null && options.urlCheckout != "")
+								if(options.urlCheckout  != null && database != null)
 								{
-									url = options.urlCheckout.toLowerCase().replace("%domain%",domain.DomainName);
+									
+									url = options.urlCheckout[database].replace("%domain%",domain.DomainName);
 								}
 								
 								// cart url
@@ -404,7 +427,7 @@
 		
 		if(settings.searchParameter != null && settings.searchParameter != ""){
 			
-			var p = GetUrlVars();
+			var p = getUrlVars();
 			
 			if(p != null && p[settings.searchParameter] != null && p[settings.searchParameter] != ""){
 				console.log(p[settings.searchParameter] );

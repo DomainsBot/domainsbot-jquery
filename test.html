@@ -32,6 +32,7 @@
 			   searchSubmit : "#search_button",
 			   //urlApi : 'http://www.google.com',
 			   // Events
+			   urlCheckout: "http://domainsbot.com/d/%domain%",
 			   onCheckout: function(domain,evt){alert(domain.Domain);},
 			   //onSuccess: function(data){alert(data)},
 			   parameters : {"database": "available", "pageSize" : 5},
@@ -45,9 +46,10 @@
 			   searchTextbox : "#search_box",
 			   searchSubmit : "#search_button",
 			   // Events
+			   urlCheckout: {sedomarket:"http://sedo.com/%domain%", godaddypremium:"http://godaddy.com/%domain%" },
 			   onCheckout: function(domain,evt){alert(domain.Domain);},
 			   //onSuccess: function(res){console.log(res)},			   
-			   parameters : {"database": "sedomarket", "filters" : "dash=false", "pageSize" : 5, "auth-token": ""},
+			   parameters : {"database": "sedomarket,godaddypremium", "filters" : "dash=false", "pageSize" : 5, "auth-token": ""},
 			   autoComplete: true
 			});
 			
