@@ -1,0 +1,65 @@
+<html>
+
+<head>
+	<!-- Fetch jQuery library  -->
+    <script src = "http://code.jquery.com/jquery-1.7.2.min.js"></script>
+
+    <!-- Fetch DomainsBot plugin  -->
+    <script src = "jquery.domainsbot.js"></script>
+</head>
+
+<body>
+
+<input type="text" id="search_box" />
+<input type="button" id="search_button" value="Search"/>
+
+<div id="loader">Loading</div>
+<h1>Available </h1>
+<div id="results"></div>
+<br/>
+<br/>
+<h1>Sedo</h1>
+<div id="results2"></div>
+
+<script>
+	$(document).ready(function () 
+		{
+			  var client = $().domainsbot({
+			   results: "#results",
+			   loading: "#loader",
+			   searchParameter: "d",
+			   searchTextbox : "#search_box",
+			   searchSubmit : "#search_button",
+			   //urlApi : 'http://www.google.com',
+			   // Events
+			   urlCheckout: "http://domainsbot.com/d/%domain%",
+			   onCheckout: function(domain,evt){alert(domain.Domain);},
+			   //onSuccess: function(data){alert(data)},
+			   parameters : {"database": "available", "pageSize" : 5},
+			   onError: function(err){alert(err.message);},
+			   autoComplete: true
+			   });
+			  
+			 var client1 = $().domainsbot({
+			   results: "#results2",
+			   loading: "#loader",
+			   searchTextbox : "#search_box",
+			   searchSubmit : "#search_button",
+			   // Events
+			   urlCheckout: {sedomarket:"http://sedo.com/%domain%", godaddypremium:"http://godaddy.com/%domain%" },
+			   onCheckout: function(domain,evt){alert(domain.Domain);},
+			   //onSuccess: function(res){console.log(res)},			   
+			   parameters : {"database": "sedomarket,godaddypremium", "filters" : "dash=false", "pageSize" : 5, "auth-token": ""},
+			   autoComplete: true
+			});
+			
+			/*var domain = "test";
+			client.search(domain);
+			client1.search(domain);*/
+			  
+			  
+		});
+	</script>
+</body>
+
+</html>
