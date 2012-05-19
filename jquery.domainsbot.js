@@ -111,7 +111,16 @@
 		   
 		if(typeof options.urlCheckout == "string")
 		{
-			var checkoutHash = {available : options.urlCheckout};
+			var defaultDb = "available";
+			
+			if(options.parameters != null && options.parameters.database != null)
+			{
+				defaultDb = options.parameters.database.split(" ")[0];
+			}
+			
+			var checkoutHash = new Object();
+			checkoutHash[defaultDb] = options.urlCheckout;
+			console.log(checkoutHash);
 			options.urlCheckout = checkoutHash;
 		}
 		   
