@@ -9,7 +9,7 @@ Copy and paste the following snippet into your web page, just before the closing
 
 ```html
 <!-- Fetch jQuery library  -->
-<script src = "http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 
 <!-- Fetch DomainsBot plugin  -->
 <script src="http://domainsbot.com/js/jquery.domainsbot.js"></script>
@@ -76,6 +76,15 @@ Getting started with the DomainsBot API couldn't be easier. Just put the follwin
 The DomainsBot jQuery plugin produce simple html that can be styled using stadard css.
 In case you want to manual render the results on the page, you can use the "onSuccess" callback to implement your logic.
 
+This is a simple css fragment for customizing the results layout
+
 ```css
+#results>div{ background-color : whiteSmoke; }
+#results>div>a {color: Black;}
+#results>div>a:hover {color:Black;}
 ```
+
+## Sample code
+This is a [sample implementation](https://github.com/DomainsBot/domainsbot-jquery/blob/master/test.html "domainsbot-jquery
+sample code") that you can use as reference. If you have any specific question please send us an email at developers[at]domainsbot.com
 
