@@ -125,7 +125,7 @@
 		}
 		   
 		var settings = $.extend( {
-			'urlApi'         : 'https://xml.domainsbot.com/xmlservices/spinner.aspx',
+			'urlApi'         : 'https://api.domainsbot.com/v4/spinner',
 			'urlAvailability' : null,
 			'urlCheckout' : null,  
 			'searchTextbox' : null,
