@@ -8,11 +8,11 @@ A JQuery plugin for using DomainsBot Spinner API (JSONP).
 Copy and paste the following snippet into your web page, just before the closing head tag. If your website uses templates to generate pages, enter it just before the closing tag in the file that contains the head section.
 
 ```html
-<!-- Fetch jQuery library  -->
+<!-- jQuery library  -->
 <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 
-<!-- Fetch DomainsBot plugin  -->
-<script src="http://domainsbot.com/js/jquery.domainsbot.js"></script>
+<!-- DomainsBot plugin  -->
+<script src="http://domainsbot.blob.core.windows.net/javascript/jquery.domainsbot-1.0.min.js"></script>
 ```
 
 Or, you can [download the source code (ZIP)](https://github.com/DomainsBot/domainsbot-jquery/zipball/master "domainsbot-jquery
