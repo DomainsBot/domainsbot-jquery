@@ -34,7 +34,7 @@ Getting started with the DomainsBot API couldn't be easier. Just put the follwin
 				   urlCheckout: "http://yoursite.com/checkout.php?domain=%domain%", // Checkout url 
 				   parameters : { // Option parameters
 								"pageSize" : 10, // Page size
-								"auth-toke" : "YOUR-API-TOKEN" // Replace with your api token from http://developers.domainsbot.com
+								"auth-token" : "YOUR-API-TOKEN" // Replace with your api token from http://developers.domainsbot.com
 							}
 			   });
 		});
@@ -57,7 +57,7 @@ Getting started with the DomainsBot API couldn't be easier. Just put the follwin
 				   urlCheckout: "http://yoursite.com/checkout.php?domain=%domain%", // Checkout url 
 				   parameters : { // Option parameters
 								"pageSize" : 10, // Page size
-								"auth-toke" : "YOUR-API-TOKEN" // Replace with your api token from http://developers.domainsbot.com
+								"auth-token" : "YOUR-API-TOKEN" // Replace with your api token from http://developers.domainsbot.com
 								// Refer to http://developers.domainsbot.com/ for the complete list of api parameters
 							},
 				  onSuccess : function(results){alert(results);} // On success javascript callback
