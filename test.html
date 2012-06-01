@@ -6,17 +6,12 @@
 
     <!-- Fetch DomainsBot plugin  -->
     <script src = "jquery.domainsbot.js"></script>
-    
-    <style>
-	
-	#results>div{ background-color : whiteSmoke; }
-	#results>div>a {color: Black;}
-	#results>div>a:hover {color:Black;}
-	
-	
-	
+
+    <style type="text/css">
+        #results>div>a {color: Black;}
+        #results>div>a:hover {color:Black;}
     </style>
-    
+
 </head>
 
 <body>
@@ -24,53 +19,37 @@
 <input type="text" id="search_box" />
 <input type="button" id="search_button" value="Search"/>
 
-<div id="loader">Loading</div>
-<h1>Available </h1>
+<div id="loader"><img src="http://www.domainsbot.com/Content/img/icons/more_loader.gif"></div>
+<div id="checking"><img src="http://www.domainsbot.com/Content/img/icons/ajax-loader.gif"></div>
+<br/>
+<br/>
 <div id="results"></div>
-<br/>
-<br/>
-<h1>Sedo</h1>
-<div id="results2"></div>
 
 <script>
-	$(document).ready(function () 
-		{
-			  var client = $().domainsbot({
-			   results: "#results",
-			   loading: "#loader",
-			   searchParameter: "d",
-			   searchTextbox : "#search_box",
-			   searchSubmit : "#search_button",
-			   //urlApi : 'http://www.google.com',
-			   // Events
-			   urlCheckout: "http://domainsbot.com/d/%domain%",
-			   onCheckout: function(domain,evt){alert(domain.Domain);},
-			   //onSuccess: function(data){alert(data)},
-			   parameters : {"database": "sedomarket", "pageSize" : 5},
-			   onError: function(err){alert(err.message);},
-			   autoComplete: true
-			   });
-			  
-			 var client1 = $().domainsbot({
-			   results: "#results2",
-			   loading: "#loader",
-			   searchTextbox : "#search_box",
-			   searchSubmit : "#search_button",
-			   // Events
-			   urlCheckout: {sedomarket:"http://sedo.com/%domain%", godaddypremium:"http://godaddy.com/%domain%" },
-			   onCheckout: function(domain,evt){alert(domain.Domain);},
-			   //onSuccess: function(res){console.log(res)},			   
-			   parameters : {"database": "sedomarket,godaddypremium", "filters" : "dash=false", "pageSize" : 5, "auth-token": ""},
-			   autoComplete: true
-			});
-			
-			/*var domain = "test";
-			client.search(domain);
-			client1.search(domain);*/
-			  
-			  
-		});
-	</script>
+    $(document).ready(function ()
+    {
+        var client = $().domainsbot({
+
+            results: "#results",
+            loading: "#loader",
+            checking: "#checking",
+            searchTextbox : "#search_box",
+            searchSubmit : "#search_button",
+            searchParameter: "domain",
+            parameters : {"pageSize" : 5, "auth-token": "PUT-YOUR-API-KEY-HERE", "tlds" : "com,co,net,me"},
+
+            autoComplete: true,
+
+            // Events
+            urlCheckout: "http://domainsbot.com/d/%domain%"
+            //onCheckout: function(domain,evt){alert(domain.Domain);}
+
+            //onSuccess: function(data){alert(data)},
+            //onError: function(err){alert(err.message);}
+
+        });
+    });
+</script>
 </body>
 
 </html>
