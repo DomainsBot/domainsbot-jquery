@@ -179,7 +179,7 @@
 					{
 						if(options.onAvailabilitySuccess != null)
 						{
-							options.onAvailabilitySuccess({ Domain: domain, Index: id, Available:  response.status == "available"? true : false} );
+							options.onAvailabilitySuccess({ Domain: domain, Index: id, Available:  !!(response.status == "available")} );
 						}
 						if(options.urlAvailability != null && options.urlAvailability != "")
 						{
@@ -436,7 +436,6 @@
 		// Public method
 		this.search = function(key)
 		{
-
 			GetDomains(key, settings);
 		};
 	};
@@ -446,9 +445,7 @@
 
 	var methods = {
 		init : function( options ) {
-			var ret = new DomainsBotApi(options);
-
-			return ret;
+            return new DomainsBotApi(options);
 		}
 	};
 
