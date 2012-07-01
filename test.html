@@ -35,17 +35,18 @@
     $(document).ready(function ()
     {
         var client = $().domainsbot({
-
+	     parameters : {
+				"pageSize" : 5,
+				"auth-token": "YOUR-TOKEN-HERE",
+				"tlds" : "com,co,net,me"
+				},
             results: "#results",
             loading: "#loader",
             checking: "#checking",
             searchTextbox : "#search_box",
             searchSubmit : "#search_button",
             searchParameter: "domain",
-            parameters : {"pageSize" : 5, "auth-token": "auto-godaddy", "tlds" : "com,co,net,me"},
-
             autoComplete: true,
-
             // Events
             urlCheckout: "http://domainsbot.com/d/%domain%"
             //onCheckout: function(domain,evt){alert(domain.Domain);}
