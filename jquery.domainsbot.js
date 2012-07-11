@@ -121,7 +121,7 @@
 
 		var settings = $.extend( {
 			'urlApi'         : 'https://api.domainsbot.com/v4/spinner',
-			'urlAvailability' : 'http://api.domainsbot.com/v4/status',
+			'urlAvailability' : 'https://api.domainsbot.com/v4/status',
 			'urlCheckout' : null,
 			'searchTextbox' : null,
 			'searchSubmit' : null,
