@@ -12,7 +12,7 @@ Copy and paste the following snippet into your web page, just before the closing
 <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 
 <!-- DomainsBot plugin  -->
-<script src="http://domainsbot.blob.core.windows.net/javascript/jquery.domainsbot-1.0.min.js"></script>
+<script src="https://domainsbot.blob.core.windows.net/javascript/jquery.domainsbot-1.0.min.js"></script>
 ```
 
 Or, you can [download the source code (ZIP)](https://github.com/DomainsBot/domainsbot-jquery/zipball/master "domainsbot-jquery
