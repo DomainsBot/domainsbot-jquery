@@ -354,7 +354,8 @@
 					GetDomains($(settings.searchTextbox).val(),settings);
 				}
 			});
-
+			
+			
 			if(settings.results != null && settings.autoComplete)
 			{
 				$(settings.searchTextbox).InstantSearch({
@@ -387,6 +388,10 @@
 
 					}
 				});
+			}
+			else if($(settings.searchTextbox).val().length > 0)
+			{
+				GetDomains($(settings.searchTextbox).val(),settings);
 			}
 
 		}
