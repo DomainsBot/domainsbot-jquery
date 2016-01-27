@@ -24,17 +24,16 @@ Getting started with the DomainsBot API couldn't be easier. Just put the follwin
 
 ```html
 <script>
-	$(document).ready(function () 
+	$(document).ready(function ()
 		{
 			  var client = $().domainsbot({
-				   results: "#results", // Selector for the results element 
+				   results: "#results", // Selector for the results element
 				   loading: "#loader", // Selector for the loading element
 				   searchTextbox : "#search_box", // Selector for the search box element
 				   searchSubmit : "#search_button", // Selector for the submit button element
-				   urlCheckout: "http://yoursite.com/checkout.php?domain=%domain%", // Checkout url 
+				   urlCheckout: "http://yoursite.com/checkout.php?domain=%domain%", // Checkout url
 				   parameters : { // Option parameters
-								"pageSize" : 10, // Page size
-								"auth-token" : "YOUR-API-TOKEN" // Replace with your api token from http://developers.domainsbot.com
+								"apikey" : "YOUR-API-KEY" // Replace with your api token from http://developers.domainsbot.com
 							}
 			   });
 		});
@@ -45,26 +44,23 @@ Getting started with the DomainsBot API couldn't be easier. Just put the follwin
 
 ```html
 <script>
-	$(document).ready(function () 
+	$(document).ready(function ()
 		{
 			  var client = $().domainsbot({
-				   results: "#results", // Selector for the results element 
+				   results: "#results", // Selector for the results element
 				   loading: "#loader", // Selector for the loading element
 				   checking : "#checking", // Selector for the availability check loading element
 				   searchTextbox : "#search_box", // Selector for the search box element
 				   searchSubmit : "#search_button", // Selector for the submit button element
 				   searchParameter : "domain", //  pluging will use the specified url parameter for displaying suggestion, (i.e.: http://www.yoursite.com/?domain=finddomains)
-				   urlCheckout: "http://yoursite.com/checkout.php?domain=%domain%", // Checkout url 
+				   urlCheckout: "http://yoursite.com/checkout.php?domain=%domain%", // Checkout url
 				   parameters : { // Option parameters
-								"pageSize" : 10, // Page size
-								"auth-token" : "YOUR-API-TOKEN" // Replace with your api token from http://developers.domainsbot.com
+								"apikey" : "YOUR-API-KEY" // Replace with your api key from http://developers.domainsbot.com
 								// Refer to http://developers.domainsbot.com/ for the complete list of api parameters
 							},
 				  onSuccess : function(results){alert(results);} // On success javascript callback
 				  onError : function(err){alert(err);} // On error javascript callback
 				  onLoading : function(e) {alert(e);} // On loading callback
-				  onAvailabilitySuccess : function (res) {alert(res);} // On availability check success callback
-				  onAvailabilityError : function (err) {alert(err);} // On availability check error callback
 				  autoComplete : true // Enable "as you type" results, default false
 			   });
 		});
