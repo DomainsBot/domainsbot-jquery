@@ -120,7 +120,7 @@
 		}
 
 		var settings = $.extend( {
-			'urlApi' : 'https://api-2445581410012.staging.apicast.io/v5/recommend',
+			'urlApi' : 'https://api-2445581410012.apicast.io/v5/recommend',
 			'urlCheckout' : null,
 			'searchTextbox' : null,
 			'searchSubmit' : null,
