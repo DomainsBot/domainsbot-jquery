@@ -15,7 +15,7 @@
 			this.each(function () {
 
 				var dummy ={};
-				dummy.target =   $(this);
+				dummy.target = $(this);
 				dummy.name = "";
 				dummy.isTyping = false;
 				dummy.notChangedCounter = 0;
@@ -120,8 +120,7 @@
 		}
 
 		var settings = $.extend( {
-			'urlApi'         : 'https://api.domainsbot.com/v4/spinner',
-			'urlAvailability' : 'https://api.domainsbot.com/v4/status',
+			'urlApi' : 'https://api-2445581410012.staging.apicast.io/v5/recommend',
 			'urlCheckout' : null,
 			'searchTextbox' : null,
 			'searchSubmit' : null,
@@ -133,8 +132,6 @@
 			'onSuccess' : null,
 			'onError' : null,
 			'onLoading' : null,
-			'onAvailabilitySuccess' : null,
-			'onAvailabilityError' : null,
 			'onCheckout' : null,
 			'autoComplete' : false
 
@@ -163,49 +160,7 @@
 			}
 			return vars;
 		};
-		var checkAvailability = function (domain, id, options)
-		{
-			//check if domain not empty
-			if(domain != "")
-			{
 
-				// Built the post string.
-				var postString = "q=" + domain;
-
-				$.ajax({
-					url:options.urlAvailability +"?" + postString + "&auth-token=" + options.parameters["auth-token"] + "&callback=?",
-					dataType: 'jsonp',
-					success:function(response)
-					{
-						if(options.onAvailabilitySuccess != null)
-						{
-							options.onAvailabilitySuccess({ Domain: domain, Index: id, Available:  !!(response.status == "available")} );
-						}
-						if(options.urlAvailability != null && options.urlAvailability != "")
-						{
-
-							if(response.status != "available")
-							{
-								$(options.results).find("div[bind='domainsbotDomain'][index='" + id+"']").parent().hide();
-							}
-							else
-							{
-
-								$(options.results).find("div[bind='domainsbotDomain'][index='" + id+"']").hide();
-							}
-
-
-						}
-					},
-					error: function(response){
-						if(options.onAvailabilityError != null){
-							options.onAvailabilityError (response);
-						}
-					}
-				});
-			}
-
-		};
 		var GetDomains = function (key,options)
 		{
 			var cnt = 0; var i;
@@ -216,7 +171,7 @@
 
 			// Binds the post string with key term and suggestion
 			postString = "q=" + escape(key);
-
+            postString += "&callback=_domainsbot";
 			for(var index in options.parameters) {
 				postString += "&"+index+"="+escape(options.parameters[index]);
 			}
@@ -231,16 +186,16 @@
 				$(loader).css('display','block');
 			}
 
-			if(options.onLoad != null){
-				options.onLoad();
+			if(options.onLoading != null){
+				options.onLoading();
 			}
 
 			$.ajax({
-				url:options.urlApi +"?" + postString + "&callback=?",
+				url:options.urlApi +"?" + postString,
 				dataType: 'jsonp',
+                jsonpCallback: '_domainsbot',
 				success:function(data)
 				{
-
 					if(data === null || data.error != null){
 						if(options.onError != null){
 
@@ -256,11 +211,12 @@
 					if(options.onSuccess != null){
 						options.onSuccess(data);
 					}
+
 					if(options.results != null){
 						$(options.results).html("");
 						var htmlItem = "";
-						if(data && data.Domains){
-							$.each(data.Domains, function(i,domain){
+						if(data){
+							$.each(data, function(i,domain){
 
 								htmlItem += "<div >";
 								var database = null;
@@ -277,11 +233,9 @@
 								}
 
 								// cart url
-								htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.DomainName+"' >"+domain.DomainName+"</a>";
+								htmlItem += "<a href='"+url+"' bind='domainsbotDomainLink' domainName='"+domain.Domain+"' >"+domain.Domain+"</a>";
 
-								//console.log(options.checking);
-
-								htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' >" + ((options.checking != null && ((options.urlAvailability != null && options.urlAvailability != "") || (options.onAvailabilitySuccess != null && options.onAvailabilitySuccess != ""))) ? 	$(options.checking).clone().css('display','block').wrap('<p>').parent().html()  : "" )	+"</div>";
+								//htmlItem += "<div bind='domainsbotDomain' index='"+i+"' domainName = '"+domain.DomainName+"' >" + ((options.checking != null && ((options.urlAvailability != null && options.urlAvailability != "") || (options.onAvailabilitySuccess != null && options.onAvailabilitySuccess != ""))) ? 	$(options.checking).clone().css('display','block').wrap('<p>').parent().html()  : "" )	+"</div>";
 
 								htmlItem += "</div>";
 
@@ -308,24 +262,11 @@
 							});
 						}
 
-
-
-
-						if((options.urlAvailability != null && options.urlAvailability != "") || (options.onAvailabilitySuccess != null && options.onAvailabilitySuccess != "")){
-
-							for(i = 0; i < data.Domains.length; i++)
-							{
-								checkAvailability(data.Domains[i].DomainName, i, options);
-							}
-
-						}
-
-
 					}
 				},
 				error: function(xhr, ajaxOptions, thrownError)
 				{
-					if(options.onError != null){
+                	if(options.onError != null){
 
 						options.onError(thrownError);
 					}
@@ -354,9 +295,9 @@
 					GetDomains($(settings.searchTextbox).val(),settings);
 				}
 			});
-			
-			
-			if(settings.results != null && settings.autoComplete)
+
+
+			if(settings.autoComplete)
 			{
 				$(settings.searchTextbox).InstantSearch({
 					onTyped: function(text){
@@ -381,8 +322,8 @@
 								$(loader).css('display','block');
 							}
 
-							if(options.onLoad != null){
-								options.onLoad();
+							if(options.onLoading != null){
+								options.onLoading();
 							}
 						}
 
